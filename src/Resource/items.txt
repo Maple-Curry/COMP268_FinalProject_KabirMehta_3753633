@@ -1,0 +1,14 @@
+small key|A golden key glowing faintly. Small enough for a hidden door.|true|1
+bottle|A swirling bottle labeled "DRINK ME." The liquid bubbles oddly.|true|1
+cake|A sponge cake with "EAT ME" written in frosting.|true|1
+fan|A fan with embroidered rabbits. Holding it cools the air.|true|0
+teacup|A cracked teacup that refills itself with invisible tea.|true|3
+watch|A ticking pocket watch that seems stuck at tea time.|true|3
+mushroom|Half of a red-and-white mushroom. Might cause strange effects.|true|5
+flower crown|Woven from talking petals. It sings quietly when worn.|true|2
+scroll|A parchment labeled “Secret Trial Evidence.” It whispers your name.|true|4
+rose brush|A paintbrush dipped in red ink. Useful for disguising white roses.|true|8
+gloves|White gloves once worn by the Rabbit. One finger is missing.|true|0
+flamingo|A pink croquet mallet with blinking eyes.|true|2
+jam tart|Sticky and sweet. The Queen may want this returned.|true|7
+key to castle|A silver key shaped like a heart. Engraved “Only truth opens me.”|true|6

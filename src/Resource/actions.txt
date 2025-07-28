@@ -1,0 +1,9 @@
+go
+look
+take
+drop
+use
+talk
+inventory
+help
+quit

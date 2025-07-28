@@ -1,0 +1,9 @@
+Rabbit Hole|A spiraling tunnel lined with shelves, clocks, and strange objects. It feels like you've been falling for hours.|1,-1,-1,-1
+Hall of Doors|A hallway lined with doors of every shape and size. A tiny keyhole glints behind a curtain.|2,0,3,4
+Garden|A luminous garden with talking flowers and paths that twist oddly. A sense of calm fills the air.|-1,1,-1,6
+Tea Party|A long table cluttered with teacups and bizarre characters. No two chairs are the same.|-1,-1,-1,1
+Courtroom|A chaotic court of playing cards. The Queen screams as the King naps beside her.|-1,-1,-1,2
+Mushroom Grove|Towering mushrooms and perfumed smoke. The Caterpillar speaks in riddles.|-1,-1,1,-1
+Forest Clearing|A quiet grove where the Cheshire Cat smiles from the trees.|-1,-1,2,7
+Queen's Castle|A towering red palace with rosebush mazes and guarded gates.|-1,-1,6,8
+Maze Garden|Twisting hedges full of secrets, dead ends, and painted roses.|-1,-1,7,-1

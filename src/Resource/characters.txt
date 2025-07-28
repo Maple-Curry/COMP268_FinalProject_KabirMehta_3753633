@@ -1,0 +1,8 @@
+White Rabbit|Frantic and muttering "Oh dear!" while checking his watch.|0
+Doorknob|A snarky talking doorknob who complains about being poked.|1
+Caterpillar|A chill blue caterpillar blowing smoke rings and asking deep questions.|5
+Mad Hatter|Chaotic and full of riddles. Obsessed with tea and time.|3
+March Hare|Erratic and loud. Thinks it's always tea time.|3
+Cheshire Cat|Fades in and out, speaking in paradoxes and directions.|6
+Queen of Hearts|Loud, red-faced, and always yelling “Off with their heads!”|4
+King of Hearts|Reading a blank scroll upside-down. Claims it’s law.|4
