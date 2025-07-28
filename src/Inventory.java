@@ -3,13 +3,6 @@ import java.util.ArrayList;
 public class Inventory {
     // The list of items the player is currently carrying
     private ArrayList<Items> carriedItems = new ArrayList<>();
-    private ArrayList<Items> itemsInRoom = new ArrayList<>();
-
-    public ArrayList<Items> getItems() {
-        return itemsInRoom;
-    }
-
-
 
     // Add an item to the player's inventory
     public void addItem(Items item) {
@@ -24,15 +17,6 @@ public class Inventory {
     // Find an item by name in the inventory
     public Items getItemByName(String itemName) {
         for (Items item : carriedItems) {
-            if (item.getName().equalsIgnoreCase(itemName)) {
-                return item;
-            }
-        }
-        return null;
-    }
-
-    public Items getItem(String itemName) {
-        for (Items item : itemsInRoom) {
             if (item.getName().equalsIgnoreCase(itemName)) {
                 return item;
             }
