@@ -25,7 +25,13 @@ public class Items {
      * Optional hidden flag after locationId (default: false)
      */
     public static Items fromResourceLine(String line) {
+        if (line == null || line.trim().isEmpty()) {
+            throw new IllegalArgumentException("Item line cannot be null or empty");
+        }
         String[] parts = line.split("\\|");
+        if (parts.length < 4) {
+            throw new IllegalArgumentException("Item line must have at least 4 fields: " + line);
+        }
         String name = parts[0].trim();
         String description = parts[1].trim();
         boolean collectible = Boolean.parseBoolean(parts[2].trim());

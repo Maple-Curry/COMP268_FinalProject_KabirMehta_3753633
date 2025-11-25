@@ -23,10 +23,19 @@ public class Locations {
      * Format: name|description|exit_n,exit_s,exit_e,exit_w
      */
     public static Locations fromResourceLine(String line) {
+        if (line == null || line.trim().isEmpty()) {
+            throw new IllegalArgumentException("Location line cannot be null or empty");
+        }
         String[] parts = line.split("\\|");
+        if (parts.length < 3) {
+            throw new IllegalArgumentException("Location line must have 3 fields: " + line);
+        }
         String name = parts[0].trim();
         String description = parts[1].trim();
         String[] exitStrings = parts[2].split(",");
+        if (exitStrings.length < 4) {
+            throw new IllegalArgumentException("Location must have 4 exits: " + line);
+        }
         int[] exits = new int[4];
         for (int i = 0; i < 4; i++) {
             exits[i] = Integer.parseInt(exitStrings[i].trim());

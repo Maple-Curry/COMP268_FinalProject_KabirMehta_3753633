@@ -18,7 +18,13 @@ public class Characters {
      * Format: name|description|locationId
      */
     public static Characters fromResourceLine(String line) {
+        if (line == null || line.trim().isEmpty()) {
+            throw new IllegalArgumentException("Character line cannot be null or empty");
+        }
         String[] parts = line.split("\\|");
+        if (parts.length < 3) {
+            throw new IllegalArgumentException("Character line must have 3 fields: " + line);
+        }
         String name = parts[0].trim();
         String description = parts[1].trim();
         int locationId = Integer.parseInt(parts[2].trim());
