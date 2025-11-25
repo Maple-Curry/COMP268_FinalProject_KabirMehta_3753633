@@ -6,13 +6,31 @@ public class Locations {
     private int[] exits = new int[4]; // N=0, S=1, E=2, W=3
     private ArrayList<Items> items = new ArrayList<>();
     private ArrayList<Characters> characters = new ArrayList<>();
+    private ArrayList<Items> stash = new ArrayList<>(); // Safe room stash
     private boolean visited = false;
+    private boolean isSafeRoom = false;
 
     // Constructor to initialize name, description, and exits
     public Locations(String name, String description, int[] exits) {
         this.name = name;
         this.description = description;
         this.exits = exits;
+    }
+
+    // Parse a location from a resource line (format: name|description|exits)
+    public static Locations fromResourceLine(String line) {
+        String[] parts = line.split("\\|");
+        if (parts.length < 3) {
+            return null;
+        }
+        String name = parts[0].trim();
+        String description = parts[1].trim();
+        String[] exitStrings = parts[2].split(",");
+        int[] exits = new int[4];
+        for (int i = 0; i < 4 && i < exitStrings.length; i++) {
+            exits[i] = Integer.parseInt(exitStrings[i].trim());
+        }
+        return new Locations(name, description, exits);
     }
 
     // Return location name
@@ -44,6 +62,17 @@ public class Locations {
     // Return the list of items currently in the room
     public ArrayList<Items> getItems() {
         return items;
+    }
+
+    // Return visible items only (not hidden)
+    public ArrayList<Items> getVisibleItems() {
+        ArrayList<Items> visible = new ArrayList<>();
+        for (Items item : items) {
+            if (!item.isHidden()) {
+                visible.add(item);
+            }
+        }
+        return visible;
     }
 
     // Add an item to the room
@@ -84,5 +113,42 @@ public class Locations {
             }
         }
         return null;
+    }
+
+    // Safe room stash mechanics
+    public boolean isSafeRoom() {
+        return isSafeRoom;
+    }
+
+    public void setSafeRoom(boolean safeRoom) {
+        this.isSafeRoom = safeRoom;
+    }
+
+    public void stashItem(Items item) {
+        stash.add(item);
+    }
+
+    public Items takeFromStash(String itemName) {
+        for (Items item : stash) {
+            if (item.getName().equalsIgnoreCase(itemName)) {
+                stash.remove(item);
+                return item;
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<Items> getStash() {
+        return stash;
+    }
+
+    // Build suggested commands based on current room state
+    public String buildSuggestedCommands() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("You can: go [direction], look, take [item], drop [item], inventory, help, quit");
+        if (isSafeRoom && !stash.isEmpty()) {
+            sb.append(", stash [item], unstash [item]");
+        }
+        return sb.toString();
     }
 }

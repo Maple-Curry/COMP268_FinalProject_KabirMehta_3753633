@@ -24,15 +24,42 @@ public class Inventory {
         return null;
     }
 
+    // Check if inventory contains an item by name
+    public boolean hasItem(String itemName) {
+        return getItemByName(itemName) != null;
+    }
+
+    // Get all carried items
+    public ArrayList<Items> getItems() {
+        return carriedItems;
+    }
+
+    // Check if inventory is empty
+    public boolean isEmpty() {
+        return carriedItems.isEmpty();
+    }
+
     // Print a list of items currently carried
     public void listItems() {
         if (carriedItems.isEmpty()) {
-            System.out.println("You’re not carrying anything.");
+            System.out.println("You're not carrying anything.");
         } else {
             System.out.println("Inventory:");
             for (Items item : carriedItems) {
                 System.out.println("- " + item.getName());
             }
         }
+    }
+
+    // Get inventory as a formatted string
+    public String getInventoryString() {
+        if (carriedItems.isEmpty()) {
+            return "You're not carrying anything.";
+        }
+        StringBuilder sb = new StringBuilder("Inventory:\n");
+        for (Items item : carriedItems) {
+            sb.append("- ").append(item.getName()).append("\n");
+        }
+        return sb.toString().trim();
     }
 }
