@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Locations {
     private String name;
@@ -7,12 +8,38 @@ public class Locations {
     private ArrayList<Items> items = new ArrayList<>();
     private ArrayList<Characters> characters = new ArrayList<>();
     private boolean visited = false;
+    private boolean safeRoom = false;
+    private final List<Items> stash = new ArrayList<>();
 
     // Constructor to initialize name, description, and exits
     public Locations(String name, String description, int[] exits) {
         this.name = name;
         this.description = description;
         this.exits = exits;
+    }
+
+    public static Locations fromResourceLine(int id, String line) {
+        if (line == null || line.trim().isEmpty()) {
+            return null;
+        }
+        String[] parts = line.split("\\|");
+        if (parts.length < 3) {
+            System.out.println("Invalid location line: " + line);
+            return null;
+        }
+        try {
+            String locName = parts[0].trim();
+            String locDescription = parts[1].trim();
+            String[] exitStrings = parts[2].split(",");
+            int[] exits = new int[4];
+            for (int j = 0; j < 4 && j < exitStrings.length; j++) {
+                exits[j] = Integer.parseInt(exitStrings[j].trim());
+            }
+            return new Locations(locName, locDescription, exits);
+        } catch (NumberFormatException e) {
+            System.out.println("Error parsing location data: " + e.getMessage());
+            return null;
+        }
     }
 
     // Return location name
@@ -84,5 +111,58 @@ public class Locations {
             }
         }
         return null;
+    }
+
+    // Safe room functionality
+    public boolean isSafeRoom() {
+        return safeRoom;
+    }
+
+    public void setSafeRoom(boolean safeRoom) {
+        this.safeRoom = safeRoom;
+    }
+
+    public boolean stashItem(Items item) {
+        if (!safeRoom || item == null) {
+            return false;
+        }
+        stash.add(item);
+        return true;
+    }
+
+    public Items retrieveItem(String itemName) {
+        if (!safeRoom) {
+            return null;
+        }
+        Items foundItem = null;
+        for (Items item : stash) {
+            if (item.getName().equalsIgnoreCase(itemName)) {
+                foundItem = item;
+                break;
+            }
+        }
+        if (foundItem != null) {
+            stash.remove(foundItem);
+        }
+        return foundItem;
+    }
+
+    public List<Items> getStash() {
+        return stash;
+    }
+
+    public void listStash() {
+        if (!safeRoom) {
+            System.out.println("This is not a safe room.");
+            return;
+        }
+        if (stash.isEmpty()) {
+            System.out.println("The stash is empty.");
+        } else {
+            System.out.println("Items in the stash:");
+            for (Items item : stash) {
+                System.out.println("- " + item.getName());
+            }
+        }
     }
 }
