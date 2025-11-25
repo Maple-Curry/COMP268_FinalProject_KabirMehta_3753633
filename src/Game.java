@@ -10,7 +10,12 @@ public class Game {
     private int currentLocation = 0;
     private Inventory inventory = new Inventory();
     private Control control = new Control();
-    private static final int TEA_PARTY_LOCATION = 3; // Tea Party is the safe room
+    
+    // Location constants for special locations
+    private static final int TEA_PARTY_LOCATION = 3;
+    private static final int COURTROOM_LOCATION = 4;
+    private static final int FOREST_CLEARING_LOCATION = 6;
+    private static final int HALL_OF_DOORS_LOCATION = 1;
 
     // Main game loop
     public void start() {
@@ -220,7 +225,7 @@ public class Game {
                 System.out.println("You eat the cake. The world seems to shrink around you...");
                 break;
             case "small key":
-                if (currentLocation == 1) { // Hall of Doors
+                if (currentLocation == HALL_OF_DOORS_LOCATION) {
                     System.out.println("You unlock a tiny door revealing a beautiful garden beyond!");
                 } else {
                     System.out.println("There's nothing to unlock here.");
@@ -329,14 +334,14 @@ public class Game {
     // Check for inventory-triggered encounters
     private void checkInventoryEncounters(Locations location) {
         // Queen encounter if carrying jam tart
-        if (currentLocation == 4 && inventory.hasItem("jam tart")) {
+        if (currentLocation == COURTROOM_LOCATION && inventory.hasItem("jam tart")) {
             System.out.println("\nThe Queen of Hearts spots the jam tart in your possession!");
             System.out.println("\"THAT'S MY TART! OFF WITH THEIR HEAD!\" she screams.");
             System.out.println("You'd better drop it or use it wisely...");
         }
 
         // Cheshire Cat hints based on inventory
-        if (currentLocation == 6 && !inventory.isEmpty()) {
+        if (currentLocation == FOREST_CLEARING_LOCATION && !inventory.isEmpty()) {
             System.out.println("\nThe Cheshire Cat grins at your belongings.");
             System.out.println("\"Interesting treasures you carry. Some may help, some may hinder...\"");
         }
@@ -423,13 +428,24 @@ public class Game {
     // Read lines from a resource file (using classloader)
     private List<String> readResourceFile(String resourcePath) {
         List<String> lines = new ArrayList<>();
+        
+        // Validate resource path to prevent path traversal
+        if (resourcePath == null || resourcePath.contains("..") || resourcePath.startsWith("/")) {
+            return lines;
+        }
+        
         try {
             InputStream is = getClass().getClassLoader().getResourceAsStream(resourcePath);
             if (is == null) {
                 // Try loading from file system as fallback
                 try {
                     java.nio.file.Path path = java.nio.file.Paths.get("src/" + resourcePath);
-                    return java.nio.file.Files.readAllLines(path);
+                    // Ensure path is within expected directory
+                    java.nio.file.Path normalizedPath = path.normalize();
+                    if (!normalizedPath.startsWith("src/Resource")) {
+                        return lines;
+                    }
+                    return java.nio.file.Files.readAllLines(normalizedPath);
                 } catch (IOException e2) {
                     return lines;
                 }

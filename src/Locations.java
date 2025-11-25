@@ -129,13 +129,17 @@ public class Locations {
     }
 
     public Items takeFromStash(String itemName) {
+        Items toRemove = null;
         for (Items item : stash) {
             if (item.getName().equalsIgnoreCase(itemName)) {
-                stash.remove(item);
-                return item;
+                toRemove = item;
+                break;
             }
         }
-        return null;
+        if (toRemove != null) {
+            stash.remove(toRemove);
+        }
+        return toRemove;
     }
 
     public ArrayList<Items> getStash() {
@@ -146,7 +150,7 @@ public class Locations {
     public String buildSuggestedCommands() {
         StringBuilder sb = new StringBuilder();
         sb.append("You can: go [direction], look, take [item], drop [item], inventory, help, quit");
-        if (isSafeRoom && !stash.isEmpty()) {
+        if (isSafeRoom) {
             sb.append(", stash [item], unstash [item]");
         }
         return sb.toString();
