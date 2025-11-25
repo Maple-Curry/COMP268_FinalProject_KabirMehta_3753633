@@ -27,14 +27,19 @@ public class Locations {
             System.out.println("Invalid location line: " + line);
             return null;
         }
-        String locName = parts[0].trim();
-        String locDescription = parts[1].trim();
-        String[] exitStrings = parts[2].split(",");
-        int[] exits = new int[4];
-        for (int j = 0; j < 4 && j < exitStrings.length; j++) {
-            exits[j] = Integer.parseInt(exitStrings[j].trim());
+        try {
+            String locName = parts[0].trim();
+            String locDescription = parts[1].trim();
+            String[] exitStrings = parts[2].split(",");
+            int[] exits = new int[4];
+            for (int j = 0; j < 4 && j < exitStrings.length; j++) {
+                exits[j] = Integer.parseInt(exitStrings[j].trim());
+            }
+            return new Locations(locName, locDescription, exits);
+        } catch (NumberFormatException e) {
+            System.out.println("Error parsing location data: " + e.getMessage());
+            return null;
         }
-        return new Locations(locName, locDescription, exits);
     }
 
     // Return location name
@@ -129,13 +134,17 @@ public class Locations {
         if (!safeRoom) {
             return null;
         }
+        Items foundItem = null;
         for (Items item : stash) {
             if (item.getName().equalsIgnoreCase(itemName)) {
-                stash.remove(item);
-                return item;
+                foundItem = item;
+                break;
             }
         }
-        return null;
+        if (foundItem != null) {
+            stash.remove(foundItem);
+        }
+        return foundItem;
     }
 
     public List<Items> getStash() {

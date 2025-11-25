@@ -27,12 +27,17 @@ public class Items {
             System.out.println("Invalid item line: " + line);
             return null;
         }
-        String itemName = parts[0].trim();
-        String itemDescription = parts[1].trim();
-        boolean itemCollectible = Boolean.parseBoolean(parts[2].trim());
-        int locationId = Integer.parseInt(parts[3].trim());
-        boolean isHidden = parts.length > 4 && Boolean.parseBoolean(parts[4].trim());
-        return new Items(itemName, itemDescription, itemCollectible, locationId, isHidden);
+        try {
+            String itemName = parts[0].trim();
+            String itemDescription = parts[1].trim();
+            boolean itemCollectible = Boolean.parseBoolean(parts[2].trim());
+            int locationId = Integer.parseInt(parts[3].trim());
+            boolean isHidden = parts.length > 4 && Boolean.parseBoolean(parts[4].trim());
+            return new Items(itemName, itemDescription, itemCollectible, locationId, isHidden);
+        } catch (NumberFormatException e) {
+            System.out.println("Error parsing item data: " + e.getMessage());
+            return null;
+        }
     }
 
     public String getName() {

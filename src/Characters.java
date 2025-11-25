@@ -23,10 +23,15 @@ public class Characters {
             System.out.println("Invalid character line: " + line);
             return null;
         }
-        String charName = parts[0].trim();
-        String charDescription = parts[1].trim();
-        int locationId = Integer.parseInt(parts[2].trim());
-        return new Characters(charName, charDescription, locationId);
+        try {
+            String charName = parts[0].trim();
+            String charDescription = parts[1].trim();
+            int locationId = Integer.parseInt(parts[2].trim());
+            return new Characters(charName, charDescription, locationId);
+        } catch (NumberFormatException e) {
+            System.out.println("Error parsing character data: " + e.getMessage());
+            return null;
+        }
     }
 
     public String getName() {
