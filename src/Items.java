@@ -35,6 +35,9 @@ public class Items {
         this(name, description, collectible, -1, false);
     }
 
+    // Resource file format indices
+    private static final int HIDDEN_INDEX = 4;
+
     /**
      * Parse an item from a resource file line.
      * Format: name|description|collectible|locationId
@@ -55,7 +58,7 @@ public class Items {
             String description = parts[1].trim();
             boolean collectible = Boolean.parseBoolean(parts[2].trim());
             int locationId = Integer.parseInt(parts[3].trim());
-            boolean hidden = parts.length > 4 && Boolean.parseBoolean(parts[4].trim());
+            boolean hidden = parts.length > HIDDEN_INDEX && Boolean.parseBoolean(parts[HIDDEN_INDEX].trim());
             return new Items(name, description, collectible, locationId, hidden);
         } catch (NumberFormatException e) {
             System.out.println("Warning: Could not parse item location: " + line);

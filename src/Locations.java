@@ -34,6 +34,9 @@ public class Locations {
         this(-1, name, description, exits);
     }
 
+    // Number of directional exits (N, S, E, W)
+    private static final int NUM_EXITS = 4;
+
     /**
      * Parse a location from a resource file line.
      * Format: name|description|n,s,e,w
@@ -54,12 +57,19 @@ public class Locations {
             String name = parts[0].trim();
             String description = parts[1].trim();
             String[] exitStrings = parts[2].split(",");
-            int[] exits = new int[4];
-            for (int j = 0; j < 4; j++) {
+            
+            // Validate that we have exactly 4 exit values
+            if (exitStrings.length < NUM_EXITS) {
+                System.out.println("Warning: Location must have " + NUM_EXITS + " exit values: " + line);
+                return null;
+            }
+            
+            int[] exits = new int[NUM_EXITS];
+            for (int j = 0; j < NUM_EXITS; j++) {
                 exits[j] = Integer.parseInt(exitStrings[j].trim());
             }
             return new Locations(id, name, description, exits);
-        } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+        } catch (NumberFormatException e) {
             System.out.println("Warning: Could not parse location exits: " + line);
             return null;
         }

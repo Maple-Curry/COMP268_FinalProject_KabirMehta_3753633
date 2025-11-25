@@ -23,6 +23,9 @@ public class Game {
     // Constants
     private static final int TEA_PARTY_LOCATION = 3; // Safe room index
     private static final int ENCOUNTER_THRESHOLD = 3; // Items to trigger encounters
+    private static final int ENCOUNTER_CHANCE_DENOMINATOR = 10; // 1 in 10 base chance
+    private static final int ENCOUNTER_CHANCE_NUMERATOR = 3;    // 30% chance when threshold met
+    private static final String RESOURCE_BASE_PATH = "src/"; // Base path for resource files
     
     // Game flags
     private boolean gameWon = false;
@@ -279,7 +282,7 @@ public class Game {
     /**
      * Show player inventory.
      */
-    public void showInventory() {
+    private void showInventory() {
         inventory.listItems();
     }
 
@@ -358,7 +361,7 @@ public class Game {
     /**
      * Search the current location for hidden items.
      */
-    public void searchLocation() {
+    private void searchLocation() {
         Locations location = map[currentLocation];
         
         if (location.hasBeenSearched()) {
@@ -447,14 +450,14 @@ public class Game {
     /**
      * Display a random hint.
      */
-    public void displayHint() {
+    private void displayHint() {
         System.out.println("\n[HINT] " + hints[random.nextInt(hints.length)]);
     }
 
     /**
      * Display help information.
      */
-    public void displayHelp() {
+    private void displayHelp() {
         control.printHelp();
     }
 
@@ -464,7 +467,8 @@ public class Game {
      * Check for random encounters based on inventory size.
      */
     private void checkRandomEncounter() {
-        if (inventory.size() >= ENCOUNTER_THRESHOLD && random.nextInt(10) < 3) {
+        if (inventory.size() >= ENCOUNTER_THRESHOLD && 
+            random.nextInt(ENCOUNTER_CHANCE_DENOMINATOR) < ENCOUNTER_CHANCE_NUMERATOR) {
             Locations location = map[currentLocation];
             
             // Skip encounters in safe room
@@ -570,8 +574,8 @@ public class Game {
                 is = getClass().getResourceAsStream("/" + filename);
             }
             if (is == null) {
-                // Fallback: try as file path
-                java.io.File file = new java.io.File("src/" + filename);
+                // Fallback: try as file path using configurable base path
+                java.io.File file = new java.io.File(RESOURCE_BASE_PATH + filename);
                 if (file.exists()) {
                     is = new java.io.FileInputStream(file);
                 }
